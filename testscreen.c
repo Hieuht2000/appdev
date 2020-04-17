@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "screen.h"
 #include "comm.h"
+#include "sound.h"
 
 int main(void)
 {
@@ -44,4 +45,8 @@ int main(void)
     clearscreen();
     printf("color is set back to default\n");
     getchar();
+	FILE *fp = fopen("test.wav", "r"); // open the wav file in read-only mode
+	WAVheader h = readwavhdr(fp);
+	fclose(fp);
+	displaywavhdr(h);
 }
