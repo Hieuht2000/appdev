@@ -47,6 +47,7 @@ int main(void)
     getchar();
 	FILE *fp = fopen("test.wav", "r"); // open the wav file in read-only mode
 	WAVheader h = readwavhdr(fp);
-	fclose(fp);
 	displaywavhdr(h);
+	wavdata(h, fp);
+	fclose(fp);
 }
