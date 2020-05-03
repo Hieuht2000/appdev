@@ -2,6 +2,7 @@
 #include <math.h>
 #include "sound.h"
 #include "screen.h"
+#include "comm.h"
 
 // function definitions
 WAVheader readwavhdr(FILE *fp){
@@ -30,7 +31,7 @@ void wavdata(WAVheader h, FILE *fp)
 	// (ROOT MEAN SQUARE) formula
 	short samples[SIZE];
 	int peaks = 0, flag = 0 ;
-
+	double maxdb = 0.0;
 	for(int i=0; i < BARS; i++)
 	{
 		fread(samples, sizeof(samples), 1, fp);
@@ -65,5 +66,12 @@ void wavdata(WAVheader h, FILE *fp)
 		setfgcolor(YELLOW);
 		printf("Peaks: %d\n", peaks);
 #endif
+		if(dB>maxdb){
+			maxdb = dB;
+		}
 	}
+	
+	char postdata[100];
+	sprintf(postdata, "peaks=%d&maxdb=%f\n", peaks, maxdb);
+	sendpost(URL, postdata);
 }
